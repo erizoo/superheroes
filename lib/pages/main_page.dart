@@ -34,7 +34,10 @@ class _MainPageState extends State<MainPage> {
         ),
         backgroundColor: SuperheroesColors.background,
         body: SafeArea(
-          child: MainPageContent(),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 30.0),
+            child: MainPageContent(),
+          ),
         ),
       ),
     );
@@ -87,7 +90,7 @@ class MainPageStateWidget extends StatelessWidget {
             return const LoadingIndicator();
           case MainPageState.minSymbols:
             return const MinSymbolsWidget();
-          case MainPageState.noFavorite:
+          case MainPageState.noFavorites:
             return InfoWithButton(
                 title: "No favorites yet",
                 subtitle: "Search and add",
@@ -98,7 +101,7 @@ class MainPageStateWidget extends StatelessWidget {
                 imageTopPadding: 9);
           case MainPageState.favorites:
             return Favorites();
-          case MainPageState.searchResult:
+          case MainPageState.searchResults:
             return SearchResults();
           case MainPageState.nothingFound:
             return InfoWithButton(
