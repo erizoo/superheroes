@@ -16,9 +16,6 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.openSansTextTheme(
           Theme.of(context).textTheme,
         ),
-        appBarTheme: const AppBarTheme(color: Colors.blue,
-          brightness: Brightness.light,
-        ),
       ),
       home: MainPage(),
     );

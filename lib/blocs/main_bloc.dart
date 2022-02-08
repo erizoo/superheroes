@@ -1,19 +1,19 @@
 import 'dart:async';
 
-import 'package:rxdart/rxdart.dart';
+import 'package:rxdart/subjects.dart';
 
 class MainBloc {
   final BehaviorSubject<MainPageState> stateSubject = BehaviorSubject();
+  Stream<MainPageState> observeMainPageState() => stateSubject;
 
-  Stream<MainPageState> observeMainPageState() => stateSubject.stream;
-
-  MainBloc(){
+  MainBloc() {
     stateSubject.add(MainPageState.noFavorites);
   }
 
   void nextState() {
     final currentState = stateSubject.value;
-    final nextState = MainPageState.values[(MainPageState.values.indexOf(currentState) + 1) %
+    final nextState = MainPageState.values[
+    (MainPageState.values.indexOf(currentState) + 1) %
         MainPageState.values.length];
     stateSubject.add(nextState);
   }

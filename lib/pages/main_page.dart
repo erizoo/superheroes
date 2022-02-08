@@ -1,19 +1,18 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
 import 'package:superheroes/blocs/main_bloc.dart';
 import 'package:superheroes/pages/superhero_page.dart';
 import 'package:superheroes/resources/superheroes_colors.dart';
 import 'package:superheroes/resources/superheroes_images.dart';
-
-import '../widgets/action_button.dart';
-import '../widgets/info_with_button.dart';
-import '../widgets/superhero_card.dart';
+import 'package:superheroes/widgets/action_button.dart';
+import 'package:superheroes/widgets/info_with_button.dart';
+import 'package:superheroes/widgets/superhero_card.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({Key? key}) : super(key: key);
+  const MainPage({Key? key}) : super(key: key);
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -27,17 +26,9 @@ class _MainPageState extends State<MainPage> {
     return Provider.value(
       value: bloc,
       child: Scaffold(
-        appBar: AppBar(
-          systemOverlayStyle: SystemUiOverlayStyle.light,
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-        ),
         backgroundColor: SuperheroesColors.background,
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 30.0),
-            child: MainPageContent(),
-          ),
+          child: MainPageContent(),
         ),
       ),
     );
@@ -58,17 +49,11 @@ class MainPageContent extends StatelessWidget {
       children: [
         MainPageStateWidget(),
         Align(
-          alignment: Alignment.bottomCenter,
-          child: GestureDetector(
-            onTap: () {
-              bloc.nextState();
-            },
-            child: Text(
-              "Next state".toUpperCase(),
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            ),
-          ),
-        )
+            alignment: Alignment.bottomCenter,
+            child: ActionButton(
+              onTap: () => bloc.nextState(),
+              text: "Next state",
+            ))
       ],
     );
   }
@@ -81,15 +66,15 @@ class MainPageStateWidget extends StatelessWidget {
     return StreamBuilder<MainPageState>(
       stream: bloc.observeMainPageState(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData == 0 || snapshot.data == null) {
-          return SizedBox();
+        if (!snapshot.hasData || snapshot.data == null) {
+          return const SizedBox();
         }
         final MainPageState state = snapshot.data!;
         switch (state) {
           case MainPageState.loading:
             return const LoadingIndicator();
           case MainPageState.minSymbols:
-            return const MinSymbolsWidget();
+            return const MinSymbols();
           case MainPageState.noFavorites:
             return InfoWithButton(
                 title: "No favorites yet",
@@ -133,12 +118,33 @@ class MainPageStateWidget extends StatelessWidget {
   }
 }
 
+class LoadingIndicator extends StatelessWidget {
+  const LoadingIndicator({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Align(
+      alignment: Alignment.topCenter,
+      child: Padding(
+        padding: EdgeInsets.only(top: 110),
+        child: CircularProgressIndicator(
+          color: SuperheroesColors.blue,
+          strokeWidth: 4,
+        ),
+      ),
+    );
+  }
+}
+
 class Favorites extends StatelessWidget {
   const Favorites({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      // ignore: prefer_const_literals_to_create_immutables
       children: [
         SizedBox(height: 90),
         Align(
@@ -149,7 +155,7 @@ class Favorites extends StatelessWidget {
               "Your favorites",
               style: TextStyle(
                 fontSize: 24,
-                color: Colors.white,
+                color: SuperheroesColors.white,
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -211,7 +217,7 @@ class SearchResults extends StatelessWidget {
               "Search results",
               style: TextStyle(
                 fontSize: 24,
-                color: Colors.white,
+                color: SuperheroesColors.white,
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -256,93 +262,22 @@ class SearchResults extends StatelessWidget {
   }
 }
 
-class NoFavoriteWidget extends StatelessWidget {
-  const NoFavoriteWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      // ignore: prefer_const_literals_to_create_immutables
-      children: [
-        Stack(
-          children: [
-            Container(
-              height: 108,
-              width: 108,
-              decoration: const BoxDecoration(
-                color: SuperheroesColors.blue,
-                shape: BoxShape.circle,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: Image.asset(
-                SuperheroesImages.ironman,
-                height: 119,
-                width: 108,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        Text(
-          "No favorites yet",
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-              fontSize: 32, color: Colors.white, fontWeight: FontWeight.w800),
-        ),
-        const SizedBox(height: 20),
-        Text(
-          "Search and add".toUpperCase(),
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-              fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 30),
-        ActionButton(onTap: () {}, text: "Search".toUpperCase())
-      ],
-    ));
-  }
-}
-
-class MinSymbolsWidget extends StatelessWidget {
-  const MinSymbolsWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 100.0),
-      child: Align(
-          alignment: Alignment.topCenter,
-          child: Text(
-            "Enter at least 3 symbols",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          )),
-    );
-  }
-}
-
-class LoadingIndicator extends StatelessWidget {
-  const LoadingIndicator({
-    Key? key,
-  }) : super(key: key);
+class MinSymbols extends StatelessWidget {
+  const MinSymbols({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.topCenter,
       child: Padding(
-        padding: EdgeInsets.only(top: 110),
-        child: CircularProgressIndicator(
-          color: SuperheroesColors.blue,
-          strokeWidth: 4,
+        padding: const EdgeInsets.only(top: 110),
+        child: const Text(
+          "Enter at least 3 symbols",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: SuperheroesColors.white,
+          ),
         ),
       ),
     );

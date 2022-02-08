@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:superheroes/widgets/action_button.dart';
+// ignore_for_file: prefer_const_constructors
 
-import '../resources/superheroes_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:superheroes/resources/superheroes_colors.dart';
+import 'package:superheroes/widgets/action_button.dart';
 
 class SuperheroPage extends StatelessWidget {
   final String name;
@@ -15,17 +16,17 @@ class SuperheroPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const Expanded(child: SizedBox()),
+            Expanded(child: SizedBox()),
             Center(
                 child: Text(
-              name,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-            )),
-            const Expanded(child: SizedBox()),
+                  name,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: SuperheroesColors.white,
+                  ),
+                )),
+            Expanded(child: SizedBox()),
             Align(
                 alignment: Alignment.bottomCenter,
                 child: ActionButton(

@@ -1,13 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../resources/superheroes_colors.dart';
+import 'package:superheroes/resources/superheroes_colors.dart';
 
 class ActionButton extends StatelessWidget {
   final VoidCallback onTap;
   final String text;
-
-  const ActionButton({Key? key, required this.text, required this.onTap})
-      : super(key: key);
+  const ActionButton({
+    Key? key,
+    required this.onTap,
+    required this.text,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +25,11 @@ class ActionButton extends StatelessWidget {
         ),
         child: Text(
           text.toUpperCase(),
-          style:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+          style: const TextStyle(
+            fontSize: 14,
+            color: SuperheroesColors.white,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
     );
