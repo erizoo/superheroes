@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
-import 'package:rxdart/subjects.dart';
+import 'package:http/http.dart' as http;
 
 import '../resources/superheroes_images.dart';
 
@@ -79,7 +79,11 @@ class MainBloc {
 
   Future<List<SuperheroInfo>> search(final String text) async {
     await Future.delayed(const Duration(seconds: 1));
-
+    final response = await http.get(Uri.parse("https://postman-echo.com/get?foo1=bar1&foo2=bar2"));
+    print(response.statusCode);
+    print(response.reasonPhrase);
+    print(response.headers);
+    print(response.body);
     return SuperheroInfo.mocked
         .where((element) =>
             element.name.toLowerCase().contains(text.toLowerCase()))
