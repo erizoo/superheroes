@@ -5,13 +5,13 @@ import 'package:superheroes/pages/main_page.dart';
 
 void main() async {
   await dotenv.load();
-  print(dotenv.env['SUPERHERO_TOKEN']);
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

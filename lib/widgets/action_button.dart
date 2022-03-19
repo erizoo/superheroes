@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:superheroes/resources/superheroes_colors.dart';
+import 'package:provider/provider.dart';
+import 'package:superheroes/blocs/main_bloc.dart';
+import 'package:superheroes/resources/superhoroes_colors.dart';
 
 class ActionButton extends StatelessWidget {
   final VoidCallback onTap;
