@@ -5,6 +5,7 @@ class SuperheroesImages {
   static const hulk = "assets/images/hulk.png";
   static const superman = "assets/images/superman.png";
   static const unknown = "assets/images/unknown.png";
+  static const unknownBig = "assets/images/unknown_big.png";
   static const batmanUrl =
       "https://www.superherodb.com/pictures2/portraits/10/100/639.jpg";
   static const venomUrl =
